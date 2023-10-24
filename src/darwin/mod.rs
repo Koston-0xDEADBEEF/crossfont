@@ -77,6 +77,13 @@ impl Descriptor {
                 .map(|desc| desc.to_font(size, false))
                 .collect::<Vec<_>>();
 
+            // If user has installed Nerd Font symbols, use it as
+            // a primary fallback. This allows using Nerd Font
+            // glyphs with any typeface.
+            if let Ok(nerd_symbols) = new_from_name("Symbols Nerd Font", size) {
+                fallbacks.push(Font { ct_font: nerd_symbols, fallbacks: Vec::new() })
+            } else
+
             // TODO, we can't use apple's proposed
             // .Apple Symbol Fallback (filtered out below),
             // but not having these makes us not able to render
